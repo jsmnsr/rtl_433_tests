@@ -233,6 +233,10 @@ def main():
 
         if exitcode:
             print("ERROR: Exited with %d '%s'" % (exitcode, input_fn))
+            # Some regressions emit the expected JSON before crashing.
+            if os.path.isfile(os.path.join(dirname, "require_clean_exit")):
+                nb_fail += 1
+                continue
 
         results, nb_invalid = parse_results(rtl433out, ignore_fields, expected_data, false_positives)
         nb_fail += nb_invalid
